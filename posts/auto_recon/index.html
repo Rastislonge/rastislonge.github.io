@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#1b1b1b">
+	<title>Auto_recon | My Projects</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<link rel="stylesheet" href="/css/bundle.css">
+	<link rel="icon" href="/icons/16.png" sizes="16x16" type="image/png">
+	<link rel="icon" href="/icons/32.png" sizes="32x32" type="image/png">
+		
+</head>
+<body class="body kind-page">
+	<header class="header">
+	<a class="logo" href="/">My Projects</a>
+	
+</header>
+	<div class="primary">
+	
+	<main class="main">
+		
+		<div class="single block">
+			<article class="entry">
+				<h1 class="entry__title">Auto_recon</h1>
+				<div class="entry__content"><h2 id="description">Description:</h2>
+<p>The purpose of the Auto_Recon is to provide utility scripts for automatic reconaissance of web sites and send us an email linking to the report upon detection of any noticeable change.</p>
+<p>The files are available at: <a href="https://github.com/Rastislonge/blog">https://github.com/Rastislonge/blog</a></p>
+<h2 id="functionality">Functionality:</h2>
+<p>This project is divided in a couple different components. The recon script that performs the reconaissance itself. The scan library of all the commands for the recon scripts we want to use in recon. Gitchchk to send new reports to github. And finally we need to setup our scripts to run from crontab on a regular basis.</p>
+<h3 id="reconsh">recon.sh:</h3>
+<p>Firstly, the script offers two parameters, m which allows you to specify particular recon scripts we&rsquo;ve stored in scan.lib (e.g &ldquo;./recon.sh -m nmap-only google.com&rdquo; would perform ONLY an nmap scan for google.com). The second parameter offered is i which offers an interactive mode (./recon.sh -i). This means that it will ask the user which domain he wants to scan and after inputing the domain there will be a scan for each recon script available in our scan library, the user can get out of this mode by typing &ldquo;quit&rdquo;. Not only does it perform a scan for all our recon scripts but it will aggregate all of the scan results in a report where parts such as the time the scan was taken and the time it took to perform are stripped, the reason this is done will be further explained in the gitchk.sh section.</p>
+<h3 id="scanlib">scan.lib:</h3>
+<p>The reason we&rsquo;ve added a scan.lib is to simplify the expansion of the recon scripts available over time since there&rsquo;s a strong chance we&rsquo;ll discover more scripts we&rsquo;ll want to add to our recon. Currently the scripts I use are: nmap and dirsearch. There&rsquo;s also crt.sh but since it would fail too often I decided to remove it + it&rsquo;s of no use for a lot of bug bounty targets which have very limited scopes.</p>
+<h3 id="gitchksh">gitchk.sh:</h3>
+<p>The purpose of gitchk.sh is to compare our new report the latest report on github and upload the new report to github if it&rsquo;s different from the last report, this is why we strip times associated to the scans in recon.sh because otherwise the scans would always be different and we would always get notified even though there would&rsquo;ve been no change in the gathered information itself. The way it works is it uses a parameter m which defines the path to the raw text of our last report for our directory we dedicated to the domain and a parameter i which specifies the domain itself, the parameter i is required to specify which directory we&rsquo;re taking our report to compare from ( e.g &ldquo;new_report=/home/kali/&quot;$i&rdquo;_recon/
+report&quot; where i is google.com&quot;). We always need to delete the last report at the end of this script to avoid stacking up different reports into one. So thanks to this script if we setup notifications for our related directory in github we&rsquo;ll get notified when a significant change in our targeted directory is detected,.</p>
+<h3 id="crontab">crontab:</h3>
+<p>crontab is a linux software utility which allows us to schedule tasks to run automatically every set amount of time, to add a new crontab task do &ldquo;crontab -e&rdquo;. in our case we&rsquo;re going to want to schedule a recon.sh of our desired domain followed right after by gitchk.sh, it could take the following form: &ldquo;0 * * * * ./recon.sh google.com &amp;&amp; ./gitchk.sh -m <a href="https://raw.githubusercontent.com/Rastislonge/google/master/report">https://raw.githubusercontent.com/Rastislonge/google/master/report</a> -i google.com&rdquo;
+&ldquo;0 * * * *&rdquo; is the interval of time we set between our scans, in this case it would be every 1 hour. &ldquo;&amp;&amp;&rdquo; means gitchk will run after recon.sh.</p>
+<h2 id="a-note-on-improvement">A note on improvement:</h2>
+<p>One problem I face with my automated recon is that occasionaly certain scans, especially crt will fail which causes a large amount of deletions followed by a large amount of additions when it succeeds again to occure. Although I&rsquo;m notified of the changes it is a problem since those reports provide no new relevant information. A suggestion I have to fix this is to detect wether or not there are no lines for scans and not send a new report if there are no lines after the scan is declared in the report. Since I have no use for crt though I&rsquo;ve decided to remove it.</p>
+<p>Another problem that isn&rsquo;t so associated to the code is the fact that I run those scripts on my laptop&rsquo;s vm. This means that the scripts will only run while it&rsquo;s on and so I&rsquo;m never really up to date with the changes occuring with my targets. This is why in the near future I plan to run those scripts 24/7 from a raspberry pi.</p>
+<h2 id="conclusion">Conclusion:</h2>
+<p>This project was really interesting and insightful, initiating me to: bash scripting, using github from the command line and crontab. The main reason I&rsquo;ve started this project aside from the whole learning that came with it is to help me or anyone interested in bug bounties to keep track of changes happening to a target they have without having to perform regular scans themselves and look through the contents for changes. This way it&rsquo;s easier to stay on top of the competition with minimal effort by always being aware of new additions or deletions to a domain.</p>
+</div>
+				
+			</article>
+		</div>
+	</main>
+	
+	
+
+
+
+	
+
+	</div>
+	<footer class="footer">
+	<div class="footer__copyright">© 2021 My Projects. <span class="footer__copyright-credits">Powered by <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/vimux/binario" rel="nofollow noopener" target="_blank">Binario</a> theme.</span></div>
+</footer>
+</body>
+</html>

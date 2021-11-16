@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My Projects</title>
+    <link>https://rastislonge.github.io/</link>
+    <description>Recent content on My Projects</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Nov 2021 15:14:49 -0500</lastBuildDate><atom:link href="https://rastislonge.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Auto_recon</title>
+      <link>https://rastislonge.github.io/posts/auto_recon/</link>
+      <pubDate>Tue, 16 Nov 2021 15:14:49 -0500</pubDate>
+      
+      <guid>https://rastislonge.github.io/posts/auto_recon/</guid>
+      <description>Description: The purpose of the Auto_Recon is to provide utility scripts for automatic reconaissance of web sites and send us an email linking to the report upon detection of any noticeable change.
+The files are available at: https://github.com/Rastislonge/blog
+Functionality: This project is divided in a couple different components. The recon script that performs the reconaissance itself. The scan library of all the commands for the recon scripts we want to use in recon.</description>
+    </item>
+    
+  </channel>
+</rss>
